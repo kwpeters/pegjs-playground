@@ -3,14 +3,39 @@
         a: 1,
         b: {
             d: {
-                e: 5
+                e: "foo"
             }
         },
         c: 3111111111
     };
 }
 start =
-numericPredicate;
+numericPredicate / stringPredicate;
+
+stringPredicate =
+lhs:varReferenceEvalString ws stringOperator:stringOperator ws rhs:string
+{
+    return stringOperator(lhs, rhs);
+}
+
+string =
+'"' text:$[^"]* '"'
+{
+    return text;
+}
+
+
+stringOperator =
+op:("!=" / "=")
+{
+    if (op === "!=") {
+        return function notEqualString(lhs, rhs) { return lhs !== rhs; }
+    }
+    else {
+        return function equalString(lhs, rhs) { return lhs === rhs; }
+    }
+}
+
 
 numericPredicate =
 lhs:varReferenceEvalNumber ws relationalOperator:relationalOperator ws rhs:number

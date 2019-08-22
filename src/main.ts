@@ -6,7 +6,7 @@ const grammarFile = path.join(__dirname, "pegGrammar.peg");
 const pegGrammar = fs.readFileSync(grammarFile, "utf8");
 
 const parser = pegjs.generate(pegGrammar, {output: "parser"});
-const input = "b.d.e > 4";
+const input = 'b.d.e = "foo"';
 try {
     const result = parser.parse(input);
     console.log("Parse succeeded.");
