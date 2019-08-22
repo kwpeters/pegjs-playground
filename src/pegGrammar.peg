@@ -1,0 +1,35 @@
+// https://stackoverflow.com/questions/13456394/eliminate-left-recursion-on-this-peg-js-grammar
+
+{
+    var context = {
+        a: 1,
+        b: {
+            d: {
+                e: 4
+            }
+        },
+        c: 3111111111
+    };
+}
+start = head
+head = head: identifierEval tail: tail? {
+    let curContext = head;
+    while (tail.length > 0) {
+        curContext = curContext[tail.shift()];
+    }
+    return curContext;
+}
+tail = "." next: identifier tail: tail? {
+    var retVal;
+    if (tail) {
+        retVal = [next].concat(tail);
+    }
+    else {
+        retVal = [next];
+    }
+    return retVal;
+}
+identifierEval = id: identifier {
+    return context[id];
+}
+identifier = chars:$ [a-zA-Z0-9]+

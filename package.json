@@ -1,0 +1,30 @@
+{
+  "name": "pegjs-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwpeters/pegjs-playground.git"
+  },
+  "author": "Kevin Peters <kwpeters@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kwpeters/pegjs-playground/issues"
+  },
+  "homepage": "https://github.com/kwpeters/pegjs-playground#readme",
+  "dependencies": {
+    "lodash": "4.17.15",
+    "pegjs": "0.10.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.14.137",
+    "@types/node": "10.12.30",
+    "@types/pegjs": "0.10.1",
+    "ts-node": "8.3.0",
+    "typescript": "3.5.3"
+  }
+}
