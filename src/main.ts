@@ -6,13 +6,12 @@ const grammarFile = path.join(__dirname, "pegGrammar.peg");
 const pegGrammar = fs.readFileSync(grammarFile, "utf8");
 
 const parser = pegjs.generate(pegGrammar, {output: "parser"});
-const input = '!b.d.e';
 const options = {
     evalContext: {
         a: 1,
         b: {
             d: {
-                e: true
+                e: 5
             }
         },
         c: 3111111111
@@ -20,7 +19,7 @@ const options = {
 };
 
 try {
-    const result = parser.parse(input, options);
+    const result = parser.parse('a = 1', options);
     console.log("Parse succeeded.");
     console.log(result);
 }

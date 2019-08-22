@@ -87,15 +87,19 @@ varReferenceEval =
 varReferenceHeadEval: identifierEval tailPropNames: varReferenceTail?
 {
     let curContext = varReferenceHeadEval;
-    while (tailPropNames.length > 0) {
-        const curPropName = tailPropNames.shift();
 
-        if (!curContext.hasOwnProperty(curPropName)) {
-            throw new Error("Property '" + curPropName + "' does not exist.");
+    if (tailPropNames) {
+        while (tailPropNames.length > 0) {
+            const curPropName = tailPropNames.shift();
+
+            if (!curContext.hasOwnProperty(curPropName)) {
+                throw new Error("Property '" + curPropName + "' does not exist.");
+            }
+
+            curContext = curContext[curPropName];
         }
-
-        curContext = curContext[curPropName];
     }
+
     return curContext;
 }
 
