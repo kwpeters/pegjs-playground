@@ -3,7 +3,7 @@
         a: 1,
         b: {
             d: {
-                e: "foo"
+                e: false
             }
         },
         c: 3111111111
@@ -11,7 +11,18 @@
 }
 
 start =
-numericPredicate / stringPredicate;
+numericPredicate / stringPredicate / booleanPredicate;
+
+booleanPredicate =
+not:"!" ? value:varReferenceEvalBoolean
+{
+    if (not) {
+        return !value;
+    }
+    else {
+        return value;
+    }
+}
 
 stringPredicate =
 lhs:varReferenceEvalString ws stringOperator:stringOperator ws rhs:string
