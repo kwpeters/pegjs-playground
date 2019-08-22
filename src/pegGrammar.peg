@@ -11,18 +11,18 @@
         c: 3111111111
     };
 }
-start = head
-head = head: identifierEval tail: tail? {
-    let curContext = head;
-    while (tail.length > 0) {
-        curContext = curContext[tail.shift()];
+start = varReference
+varReference = varReferenceHeadEval: identifierEval tailPropNames: varReferenceTail? {
+    let curContext = varReferenceHeadEval;
+    while (tailPropNames.length > 0) {
+        curContext = curContext[tailPropNames.shift()];
     }
     return curContext;
 }
-tail = "." next: identifier tail: tail? {
+varReferenceTail = "." next: identifier tailPropNames: varReferenceTail? {
     var retVal;
-    if (tail) {
-        retVal = [next].concat(tail);
+    if (tailPropNames) {
+        retVal = [next].concat(tailPropNames);
     }
     else {
         retVal = [next];
