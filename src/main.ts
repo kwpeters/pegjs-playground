@@ -7,8 +7,20 @@ const pegGrammar = fs.readFileSync(grammarFile, "utf8");
 
 const parser = pegjs.generate(pegGrammar, {output: "parser"});
 const input = '!b.d.e';
+const options = {
+    evalContext: {
+        a: 1,
+        b: {
+            d: {
+                e: true
+            }
+        },
+        c: 3111111111
+    }
+};
+
 try {
-    const result = parser.parse(input);
+    const result = parser.parse(input, options);
     console.log("Parse succeeded.");
     console.log(result);
 }

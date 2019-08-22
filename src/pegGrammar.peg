@@ -1,15 +1,3 @@
-{
-    var context = {
-        a: 1,
-        b: {
-            d: {
-                e: false
-            }
-        },
-        c: 3111111111
-    };
-}
-
 start =
 numericPredicate / stringPredicate / booleanPredicate;
 
@@ -127,7 +115,7 @@ varReferenceTail =
 identifierEval =
 id: identifier
 {
-    return context[id];
+    return options.evalContext[id];
 }
 
 identifier =
