@@ -5,21 +5,86 @@
         a: 1,
         b: {
             d: {
-                e: 4
+                e: 5
             }
         },
         c: 3111111111
     };
 }
-start = varReference
-varReference = varReferenceHeadEval: identifierEval tailPropNames: varReferenceTail? {
+start =
+numericPredicate;
+
+numericPredicate =
+lhs:varReferenceEvalNumber ws relationalOperator:relationalOperator ws rhs:number
+{
+    return relationalOperator(lhs, rhs);
+}
+
+relationalOperator =
+op:("<" / "=" / ">")
+{
+    if (op === "<") {
+        return function lessThanNumber(lhs, rhs) { return lhs < rhs; }
+    }
+    else if (op === "=") {
+        return function equal(lhs, rhs) { return lhs === rhs; }
+    }
+    else {
+        return function greaterThanNumber(lhs, rhs) { return lhs > rhs; }
+    }
+
+}
+
+varReferenceEvalNumber =
+value: varReferenceEval
+& {
+    return typeof value === "number";
+}
+{
+    return value;
+}
+
+
+varReferenceEvalString =
+value: varReferenceEval
+& {
+    return typeof value === "string";
+}
+{
+    return value;
+}
+
+
+varReferenceEvalBoolean =
+value: varReferenceEval
+& {
+    return typeof value === "boolean";
+}
+{
+    return value;
+}
+
+
+
+varReferenceEval =
+varReferenceHeadEval: identifierEval tailPropNames: varReferenceTail?
+{
     let curContext = varReferenceHeadEval;
     while (tailPropNames.length > 0) {
-        curContext = curContext[tailPropNames.shift()];
+        const curPropName = tailPropNames.shift();
+
+        if (!curContext.hasOwnProperty(curPropName)) {
+            throw new Error("Property '" + curPropName + "' does not exist.");
+        }
+
+        curContext = curContext[curPropName];
     }
     return curContext;
 }
-varReferenceTail = "." next: identifier tailPropNames: varReferenceTail? {
+
+varReferenceTail =
+"." next: identifier tailPropNames: varReferenceTail?
+{
     var retVal;
     if (tailPropNames) {
         retVal = [next].concat(tailPropNames);
@@ -29,7 +94,23 @@ varReferenceTail = "." next: identifier tailPropNames: varReferenceTail? {
     }
     return retVal;
 }
-identifierEval = id: identifier {
+
+identifierEval =
+id: identifier
+{
     return context[id];
 }
-identifier = chars:$ [a-zA-Z0-9]+
+
+identifier =
+$ [a-zA-Z0-9]+
+
+number =
+text:$[0-9]+
+{
+    return parseInt(text, 10);
+}
+
+ws "whitespace" =
+[ \t\n\r]*
+{
+}
