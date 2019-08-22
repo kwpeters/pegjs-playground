@@ -1,5 +1,3 @@
-// https://stackoverflow.com/questions/13456394/eliminate-left-recursion-on-this-peg-js-grammar
-
 {
     var context = {
         a: 1,
