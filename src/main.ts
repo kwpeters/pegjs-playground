@@ -19,7 +19,7 @@ const options = {
 };
 
 try {
-    const result = parser.parse('a = 1', options);
+    const result = parser.parse('a <= 0', options);
     console.log("Parse succeeded.");
     console.log(result);
 }

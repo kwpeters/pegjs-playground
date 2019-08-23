@@ -42,13 +42,19 @@ lhs:varReferenceEvalNumber ws relationalOperator:relationalOperator ws rhs:numbe
 }
 
 relationalOperator =
-op:("<" / "=" / ">")
+op:("<=" / "<" / "=" / ">=" / ">")
 {
-    if (op === "<") {
+    if (op === "<=") {
+        return function lessThanOrEqualNumber(lhs, rhs) { return lhs <= rhs; }
+    }
+    else if (op === "<") {
         return function lessThanNumber(lhs, rhs) { return lhs < rhs; }
     }
     else if (op === "=") {
         return function equal(lhs, rhs) { return lhs === rhs; }
+    }
+    else if (op === ">=") {
+        return function greaterThanOrEqualNumber(lhs, rhs) { return lhs >= rhs; }
     }
     else {
         return function greaterThanNumber(lhs, rhs) { return lhs > rhs; }
